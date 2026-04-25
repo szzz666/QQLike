@@ -1,0 +1,8 @@
+name: QQLike
+main: top.szzz666.QQLike.QQLikeMain
+version: "1.0.0"
+author: szzz666
+api: ["1.0.0"]
+description: QQLike plugin
+depend:
+  - StarrySkyLink
