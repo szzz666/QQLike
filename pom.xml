@@ -85,6 +85,9 @@
                             <artifactSet>
                                 <includes>
                                     <include>cn.hutool:hutool-cron</include>
+                                    <include>cn.hutool:hutool-core</include>
+                                    <include>cn.hutool:hutool-setting</include>
+                                    <include>cn.hutool:hutool-log</include>
                                 </includes>
                             </artifactSet>
                         </configuration>

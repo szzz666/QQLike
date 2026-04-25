@@ -54,14 +54,18 @@ public class QQLikeMain extends PluginBase {
     //插件关闭
     @Override
     public void onDisable() {
-        CronUtil.stop();
+        if (CronUtil.getScheduler().isStarted()) {
+            CronUtil.stop();
+        }
         logger.info("§b" + plugin.getName() + "插件关闭");
     }
 
     //启动自动点赞定时任务
     public static void startAutoLike() {
         //先停止已有的定时任务，防止重复注册
-        CronUtil.stop();
+        if (CronUtil.getScheduler().isStarted()) {
+            CronUtil.stop();
+        }
 
         if (!auto_like) {
             logger.info("自动点赞已关闭");
