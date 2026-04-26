@@ -9,6 +9,7 @@ import cn.nukkit.plugin.PluginLogger;
 import top.szzz666.QQLike.command.MyCommand;
 import top.szzz666.QQLike.config.EasyConfig;
 import top.szzz666.QQLike.listener.QQListeners;
+import top.szzz666.QQLike.tools.LikeData;
 import top.szzz666.StarrySkyLink.qq.listener.QQEventSource;
 import top.szzz666.StarrySkyLink.websocket.Wss;
 
@@ -44,6 +45,8 @@ public class QQLikeMain extends PluginBase {
         QQEventSource.registerListener(new QQListeners());
         //注册命令
         nkServer.getCommandMap().register(this.getName(), new MyCommand());
+        //加载点赞数据
+        LikeData.load();
 
         startAutoLike();
 
@@ -54,6 +57,7 @@ public class QQLikeMain extends PluginBase {
     //插件关闭
     @Override
     public void onDisable() {
+        LikeData.save();
         if (CronUtil.getScheduler().isStarted()) {
             CronUtil.stop();
         }

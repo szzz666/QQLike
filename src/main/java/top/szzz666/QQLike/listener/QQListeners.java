@@ -1,28 +1,43 @@
 package top.szzz666.QQLike.listener;
 
+import top.szzz666.QQLike.tools.LikeData;
 import top.szzz666.StarrySkyLink.qq.entity.Event;
 import top.szzz666.StarrySkyLink.qq.listener.QQEventHandler;
-import top.szzz666.StarrySkyLink.websocket.Wss;
 
 import static top.szzz666.QQLike.config.MyConfig.*;
-import static top.szzz666.StarrySkyLink.qq.send.Send.GroupAtReplyMsg;
-import static top.szzz666.StarrySkyLink.qq.send.Send.LikeMsg;
-import static top.szzz666.StarrySkyLink.qq.tools.QQIfUtils.isMineGroupMessage;
-import static top.szzz666.StarrySkyLink.qq.tools.QQIfUtils.isNotMe;
+import static top.szzz666.StarrySkyLink.qq.send.Send.*;
+
 
 public class QQListeners {
 
     @QQEventHandler
     public void onEvent(Event event) {
-        if (event.getSub_type() != null && isNotMe(event)) {
+        if (event.getSub_type() != null && event.isNotMe()) {
             String text = event.getText();
             long user_id = event.getUser_id();
-            if (isMineGroupMessage(event) && text != null) {
-                if (trigger_key.contains(text)) {
-                    Wss.QQbroadcast(null,
-                            GroupAtReplyMsg(event.getGroup_id(), user_id, event.getMessage_id(), "\n" + reply_msg));
-                    Wss.QQbroadcast(null, LikeMsg(user_id, like_times));
+            if (text != null && trigger_key.contains(text)) {
+                int usedCount = LikeData.getUsedCount(user_id);
+
+                if (usedCount + like_times > like_times_per_day) {
+                    String limitMsg = "\n" + like_limit_msg.replace("%used%", String.valueOf(usedCount)).replace("%max%", String.valueOf(like_times_per_day));
+                    if (event.isMineGroupMessage()) {
+                        event.send(GroupAtReplyMsg(event.getGroup_id(), user_id, event.getMessage_id(), limitMsg));
+                    }
+                    if (event.isPrivateMessage()) {
+                        event.send(PrivateTextMsg(user_id, limitMsg));
+                    }
+                    return;
                 }
+
+                LikeData.addUsedCount(user_id, like_times);
+
+                if (event.isMineGroupMessage()) {
+                    event.send(GroupAtReplyMsg(event.getGroup_id(), user_id, event.getMessage_id(), "\n" + reply_msg));
+                }
+                if (event.isPrivateMessage()) {
+                    event.send(PrivateTextMsg(user_id, "\n" + reply_msg));
+                }
+                event.send(LikeMsg(user_id, like_times));
             }
         }
     }

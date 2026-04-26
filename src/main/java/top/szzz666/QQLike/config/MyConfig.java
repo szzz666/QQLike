@@ -17,8 +17,14 @@ public class MyConfig {
     @ConfigItem(key = "reply_msg", comment = "回复消息")
     public static String reply_msg = "赞你了喵～";
 
-    @ConfigItem(key = "like_times", comment = "点赞次数")
+    @ConfigItem(key = "like_times", comment = "每次点赞数")
     public static int like_times = 10;
+
+    @ConfigItem(key = "like_times_per_day", comment = "每QQ每天点赞最大次数")
+    public static int like_times_per_day = 10;
+
+    @ConfigItem(key = "like_limit_msg", comment = "点赞次数达到上限时的提示消息（%used%为已赞次数，%max%为每日上限）")
+    public static String like_limit_msg = "你今天已经赞了%used%次，额度不足，明天再来吧～";
 
     @ConfigItem(key = "trigger_key", comment = "触发关键词")
     public static List<String> trigger_key = new ArrayList<>(List.of(
