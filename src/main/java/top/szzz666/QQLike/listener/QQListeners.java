@@ -19,9 +19,9 @@ public class QQListeners {
                 int usedCount = LikeData.getUsedCount(user_id);
 
                 if (usedCount + like_times > like_times_per_day) {
-                    String limitMsg = "\n" + like_limit_msg.replace("%used%", String.valueOf(usedCount)).replace("%max%", String.valueOf(like_times_per_day));
+                    String limitMsg = like_limit_msg.replace("%used%", String.valueOf(usedCount)).replace("%max%", String.valueOf(like_times_per_day));
                     if (event.isMineGroupMessage()) {
-                        event.send(GroupAtReplyMsg(event.getGroup_id(), user_id, event.getMessage_id(), limitMsg));
+                        event.send(GroupAtReplyMsg(event.getGroup_id(), user_id, event.getMessage_id(), "\n" + limitMsg));
                     }
                     if (event.isPrivateMessage()) {
                         event.send(PrivateTextMsg(user_id, limitMsg));
@@ -35,7 +35,7 @@ public class QQListeners {
                     event.send(GroupAtReplyMsg(event.getGroup_id(), user_id, event.getMessage_id(), "\n" + reply_msg));
                 }
                 if (event.isPrivateMessage()) {
-                    event.send(PrivateTextMsg(user_id, "\n" + reply_msg));
+                    event.send(PrivateTextMsg(user_id, reply_msg));
                 }
                 event.send(LikeMsg(user_id, like_times));
             }
