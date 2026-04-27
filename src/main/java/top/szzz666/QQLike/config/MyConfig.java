@@ -43,6 +43,8 @@ public class MyConfig {
     ));
 
 
+
+
     public static void initConfig() {
         ec = new EasyConfig(ConfigPath + "/config.yml");
         ec.loadFromClass(MyConfig.class);

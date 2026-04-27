@@ -45,13 +45,14 @@
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/StarrySkyLink-1.0-SNAPSHOT.jar</systemPath>
         </dependency>
-
         <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-cron</artifactId>
-            <version>5.8.44</version>
-            <scope>compile</scope>
+            <groupId>top.szzz666</groupId>
+            <artifactId>CronTaskApi</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/CronTaskApi-1.0-SNAPSHOT.jar</systemPath>
         </dependency>
+
     </dependencies>
 
     <build>
@@ -67,30 +68,6 @@
                         <goals>
                             <goal>clean</goal>
                         </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.4</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <artifactSet>
-                                <includes>
-                                    <include>cn.hutool:hutool-cron</include>
-                                    <include>cn.hutool:hutool-core</include>
-                                    <include>cn.hutool:hutool-setting</include>
-                                    <include>cn.hutool:hutool-log</include>
-                                </includes>
-                            </artifactSet>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>

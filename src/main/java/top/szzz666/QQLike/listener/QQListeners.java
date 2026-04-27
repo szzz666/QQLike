@@ -1,6 +1,6 @@
 package top.szzz666.QQLike.listener;
 
-import top.szzz666.QQLike.tools.LikeData;
+import top.szzz666.QQLike.config.LikeData;
 import top.szzz666.StarrySkyLink.qq.entity.Event;
 import top.szzz666.StarrySkyLink.qq.listener.QQEventHandler;
 
@@ -15,11 +15,13 @@ public class QQListeners {
         if (event.getSub_type() != null && event.isNotMe()) {
             String text = event.getText();
             long user_id = event.getUser_id();
-            if (text != null && trigger_key.contains(text)) {
-                int usedCount = LikeData.getUsedCount(user_id);
-
-                if (usedCount + like_times > like_times_per_day) {
-                    String limitMsg = like_limit_msg.replace("%used%", String.valueOf(usedCount)).replace("%max%", String.valueOf(like_times_per_day));
+            if (trigger_key.contains(text)) {
+                // 检查每日点赞次数限制
+                int usedCount = LikeData.getLikeCount(user_id);
+                if (usedCount >= like_times_per_day) {
+                    String limitMsg = like_limit_msg
+                            .replace("%used%", String.valueOf(usedCount))
+                            .replace("%max%", String.valueOf(like_times_per_day));
                     if (event.isMineGroupMessage()) {
                         event.send(GroupAtReplyMsg(event.getGroup_id(), user_id, event.getMessage_id(), "\n" + limitMsg));
                     }
@@ -29,8 +31,6 @@ public class QQListeners {
                     return;
                 }
 
-                LikeData.addUsedCount(user_id, like_times);
-
                 if (event.isMineGroupMessage()) {
                     event.send(GroupAtReplyMsg(event.getGroup_id(), user_id, event.getMessage_id(), "\n" + reply_msg));
                 }
@@ -38,8 +38,9 @@ public class QQListeners {
                     event.send(PrivateTextMsg(user_id, reply_msg));
                 }
                 event.send(LikeMsg(user_id, like_times));
+                LikeData.incrementLikeCount(user_id);
             }
         }
     }
-
 }
+
