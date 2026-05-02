@@ -6,3 +6,4 @@ api: ["1.0.0"]
 description: QQLike plugin
 depend:
   - StarrySkyLink
+  - QQEssential

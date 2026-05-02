@@ -47,6 +47,13 @@
         </dependency>
         <dependency>
             <groupId>top.szzz666</groupId>
+            <artifactId>QQEssential</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/QQEssential-1.0-SNAPSHOT.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>top.szzz666</groupId>
             <artifactId>CronTaskApi</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>system</scope>
